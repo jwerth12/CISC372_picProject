@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <time.h>
 #include <string.h>
-#include "image.h"
+#include "image_pthreads.h"
 #include <pthread.h>    // include pthread header
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -72,16 +72,25 @@ uint8_t getPixelValue(Image* srcImage,int x,int y,int bit,Matrix algorithm){
 //            destImage: A pointer to a  pre-allocated (including space for the pixel array) structure to receive the convoluted image.  It should be the same size as srcImage
 //            algorithm: The kernel matrix to use for the convolution
 //Returns: Nothing
-void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
+void convolute(void *args){
+    struct thread_args* arguments=(struct thread_args*)args;
 
     int row,pix,bit,span;
-    span=srcImage->bpp*srcImage->bpp;
-    for (row=0;row<srcImage->height;row++){
-        for (pix=0;pix<srcImage->width;pix++){
-            for (bit=0;bit<srcImage->bpp;bit++){
-                pthread_mutex_lock(&locker);    // lock critical section
-                destImage->data[Index(pix,row,srcImage->width,bit,srcImage->bpp)]=getPixelValue(srcImage,pix,row,bit,algorithm);
-                pthread_mutex_unlock(&locker);  // unlock critical section
+    // redo this according to our argument struct 
+    span=arguments->src->bpp*arguments->src->bpp;
+
+    for (row=0;row<arguments->src->height;row++){
+        if (row % THREAD_COUNT == arguments->thread) {
+
+            for (pix=0;pix<arguments->src->width;pix++){
+
+
+                for (bit=0;bit<arguments->src->bpp;bit++){
+            
+
+                    arguments->dest->data[Index(pix,row,arguments->src->width,bit,arguments->src->bpp)]=getPixelValue(arguments->src,pix,row,bit,arguments->alg);
+
+                }
             }
         }
     }
