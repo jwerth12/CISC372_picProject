@@ -22,8 +22,6 @@ struct thread_args {
 #define THREAD_COUNT 4 
 #define SIZE 3
 
-pthread_mutex_t locker; // create a mutex to lock critical sections
-
 //An array of kernel matrices to be used for image convolution.  
 //The indexes of these match the enumeration from the header file. ie. algorithms[BLUR] returns the kernel corresponding to a box blur.
 Matrix algorithms[]={
