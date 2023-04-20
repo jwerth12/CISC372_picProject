@@ -71,6 +71,8 @@ void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
     int row,pix,bit,span;
     span=srcImage->bpp*srcImage->bpp;
 
+    int i, j, k;    // darwin error, declaring counters outside of for loop 
+
     // starting pthread stuff 
     pthread_t *pids = (pthread_t*)malloc(sizeof(pthread_t)*srcImage->height);
 
@@ -83,8 +85,8 @@ void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
         pt_arg->row = row;
         pt_arg->src = srcImage;
         pt_arg->dest = destImage;
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
+        for (i = 0; i < SIZE; i++) {
+            for (j = 0; j < SIZE; j++) {
                 pt_arg->algorithm[i][j] = algorithm[i][j];
             }
         }
@@ -95,7 +97,7 @@ void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
 
     // outside of the loop (once all the threads have been made and all)
     // now join each of the rows together 
-    for (int i = 0; i < srcImage->height; i++) {
+    for (k = 0; k < srcImage->height; k++) {
         pthread_join(pids[i], NULL);
     }
 }
