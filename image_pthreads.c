@@ -75,8 +75,8 @@ void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
     pthread_t *pids = (pthread_t*)malloc(sizeof(pthread_t)*srcImage->height);
 
     for (row=0;row<srcImage->height;row++){
-        // put the fors into the threading function
-        // instead we can thread! 
+        // put the for loops that were here into the threading function
+        // this way we can parallelize them! 
 
         // create structure
         struct pthread_args *pt_arg = (struct pthread_args*)malloc(sizeof(struct pthread_args));
@@ -101,6 +101,7 @@ void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
 }
 
 // Create a function to help with threading 
+// will use this in pthread_create call 
 void *threading(void* args) {
     struct pthread_args* pt_args = (struct pthread_args*)args;
     int pix, bit;
@@ -111,7 +112,7 @@ void *threading(void* args) {
         }
     }
     free(pt_args);
-    return 0;
+    return 0; // i was getting a weird error so return 0!
 }
 
 //Usage: Prints usage information for the program
