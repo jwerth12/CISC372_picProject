@@ -1,0 +1,9 @@
+Script started on Wed Apr 19 21:02:36 2023
+^[]0;jwerth@r1n00.darwin:~/CISC372_picProject^G^[[?1034h[jwerth@r1n00 CISC372_picProject]$ srun ./image_pthreads pic1.jpg edge^M
+Took 6 seconds^M
+^[]0;jwerth@r1n00.darwin:~/CISC372_picProject^G[jwerth@r1n00 CISC372_picProject]$ srun ./image_omp pic1.jpg edge^M
+Took 6 seconds^M
+^[]0;jwerth@r1n00.darwin:~/CISC372_picProject^G[jwerth@r1n00 CISC372_picProject]$ exit^M
+exit^M
+
+Script done on Wed Apr 19 21:03:42 2023
